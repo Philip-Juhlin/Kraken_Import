@@ -1,0 +1,29 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# VS Code settings
+.vscode/
+
+# Visual Studio settings
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Excel/Word temp files
+~$*
+
+# Secrets/config (if you move your connection string)
+secrets.json
+appsettings.Development.json
+
+# dont include excel files
+.xlsx
+.xls
+.xml
