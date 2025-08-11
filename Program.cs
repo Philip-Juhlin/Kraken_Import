@@ -59,13 +59,13 @@ namespace KrakenExport
                     switch (mainChoice)
                     {
                         case "Generate XML from single seed order in Lims with wells.":
-                            CsvFromSm();
+                            XmlFromDb();
                             break;
                         case "Generate XML from Excel file":
-                            CsvFromExcel();
+                            XmlFromExcel();
                             break;
                         case "Generate XML from empty plates(only when no wells are defined in lims)":
-                            CsvFromSmWithoutWells();
+                            XmlFromDbWithoutWells();
                             break;
                         case "Exit":
                             AnsiConsole.MarkupLine($"[green]See you next time {capitalized}![/]");
@@ -103,13 +103,12 @@ namespace KrakenExport
             }
         }
 
-        static void CsvFromSm()
+        static void XmlFromDb()
         {
             string orderId = AnsiConsole.Ask<string>("Enter [green]Order ID[/] (e.g. SE-25-0130):");
             string outpath = PromptForOutputDirectory();
 
             int wellsPerPlate = 92;
-            string outputFile = Path.Combine(outpath!, $"{orderId}-Kraken_import.csv");
 
             string query = @"
                 SELECT 
@@ -188,7 +187,7 @@ namespace KrakenExport
             char rowChar = (char)('A' + row);
             return $"{rowChar}{col:D2}";
         }
-        private static void CsvFromExcel()
+        private static void XmlFromExcel()
         {
             while (true)
             {
@@ -258,7 +257,6 @@ namespace KrakenExport
 
             string outpath = PromptForOutputDirectory();
 
-            string outputFile = Path.Combine(outpath, $"{orderId}-Kraken_import.csv");
             int blankCount = 0, skippedCount = 0, correctedWell = 0;
 
             try
@@ -394,12 +392,10 @@ namespace KrakenExport
             }
         }
 
-        private static void CsvFromSmWithoutWells()
+        private static void XmlFromDbWithoutWells()
         {
             string orderId = AnsiConsole.Ask<string>("Enter [green]Order ID[/] (e.g. SE-25-0130):");
             string outpath = PromptForOutputDirectory();
-            string outputFile = Path.Combine(outpath!, $"{orderId}-Kraken_import.csv");
-
             int wellsPerPlate = PromptForNumberOfWells();
             string query = @"
         SELECT ID_TEXT, SAMPLE_NAME, ID_NUMERIC
